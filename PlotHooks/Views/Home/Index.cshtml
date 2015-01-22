@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PlotHooks.Models.PlotHook>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Plot Hooks</h1>
+            </hgroup>
+            <p>
+                This is a simple site that allows you to create and share plot hook generation tables.  Create serious ones for inspirations or
+				as writing challenges, or create silly ones to have some mad lib fun!
+            </p>
+			<p>
+				This site is currently very simple and was created as a coding exercise by the author to learn some better web UI practices.
+				It may expand if people actually use it.  Crazy thought.
+			</p>
+        </div>
+    </section>
+}
+<h3>Latest plot hooks</h3>
+<ul>
+	@foreach (var plotHook in Model.OrderByDescending(p => p.Id))
+	{
+	<li>@Html.ActionLink(plotHook.Title, "View", "PlotHook", new { id = plotHook.Id }, null)</li>
+	}
+</ul>

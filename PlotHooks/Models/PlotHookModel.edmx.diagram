@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="10ed27509f2942f9a7569db9fd51f3da" Name="Diagram1">
+        <EntityTypeShape EntityType="plothook_dbModel.PlotHook" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="plothook_dbModel.Selection" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="plothook_dbModel.Step" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="plothook_dbModel.FK__Step__PlotHookID__46E78A0C" />
+        <AssociationConnector Association="plothook_dbModel.FK__Selection__StepI__4316F928" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

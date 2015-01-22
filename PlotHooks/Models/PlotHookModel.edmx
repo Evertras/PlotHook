@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="plothook_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="PlotHook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Selection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Ordinal" Type="int" Nullable="false" />
+          <Property Name="StepID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Step">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Ordinal" Type="int" Nullable="false" />
+          <Property Name="PlotHookID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Selection__StepI__47DBAE45">
+          <End Role="Step" Type="Self.Step" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Selection" Type="Self.Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="StepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Step__PlotHookID__48CFD27E">
+          <End Role="PlotHook" Type="Self.PlotHook" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Step" Type="Self.Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlotHook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="PlotHookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="plothook_dbModelStoreContainer">
+          <EntitySet Name="PlotHook" EntityType="Self.PlotHook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Selection" EntityType="Self.Selection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Step" EntityType="Self.Step" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Selection__StepI__47DBAE45" Association="Self.FK__Selection__StepI__47DBAE45">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="Selection" EntitySet="Selection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Step__PlotHookID__48CFD27E" Association="Self.FK__Step__PlotHookID__48CFD27E">
+            <End Role="PlotHook" EntitySet="PlotHook" />
+            <End Role="Step" EntitySet="Step" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="plothook_dbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PlotHooks" EntityType="plothook_dbModel.PlotHook" />
+          <EntitySet Name="Selections" EntityType="plothook_dbModel.Selection" />
+          <EntitySet Name="Steps" EntityType="plothook_dbModel.Step" />
+          <AssociationSet Name="FK__Step__PlotHookID__46E78A0C" Association="plothook_dbModel.FK__Step__PlotHookID__46E78A0C">
+            <End Role="PlotHook" EntitySet="PlotHooks" />
+            <End Role="Step" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Selection__StepI__4316F928" Association="plothook_dbModel.FK__Selection__StepI__4316F928">
+            <End Role="Step" EntitySet="Steps" />
+            <End Role="Selection" EntitySet="Selections" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="PlotHook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Steps" Relationship="plothook_dbModel.FK__Step__PlotHookID__46E78A0C" FromRole="PlotHook" ToRole="Step" />
+        </EntityType>
+        <EntityType Name="Selection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ordinal" Type="Int32" Nullable="false" />
+          <Property Name="StepID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Step" Relationship="plothook_dbModel.FK__Selection__StepI__4316F928" FromRole="Selection" ToRole="Step" />
+        </EntityType>
+        <EntityType Name="Step">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ordinal" Type="Int32" Nullable="false" />
+          <Property Name="PlotHookID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PlotHook" Relationship="plothook_dbModel.FK__Step__PlotHookID__46E78A0C" FromRole="Step" ToRole="PlotHook" />
+          <NavigationProperty Name="Selections" Relationship="plothook_dbModel.FK__Selection__StepI__4316F928" FromRole="Step" ToRole="Selection" />
+        </EntityType>
+        <Association Name="FK__Step__PlotHookID__46E78A0C">
+          <End Type="plothook_dbModel.PlotHook" Role="PlotHook" Multiplicity="1" />
+          <End Type="plothook_dbModel.Step" Role="Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlotHook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="PlotHookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Selection__StepI__4316F928">
+          <End Type="plothook_dbModel.Step" Role="Step" Multiplicity="1" />
+          <End Type="plothook_dbModel.Selection" Role="Selection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selection">
+              <PropertyRef Name="StepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="plothook_dbModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="PlotHooks">
+            <EntityTypeMapping TypeName="plothook_dbModel.PlotHook">
+              <MappingFragment StoreEntitySet="PlotHook">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Selections">
+            <EntityTypeMapping TypeName="plothook_dbModel.Selection">
+              <MappingFragment StoreEntitySet="Selection">
+                <ScalarProperty Name="StepID" ColumnName="StepID" />
+                <ScalarProperty Name="Ordinal" ColumnName="Ordinal" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Steps">
+            <EntityTypeMapping TypeName="plothook_dbModel.Step">
+              <MappingFragment StoreEntitySet="Step">
+                <ScalarProperty Name="PlotHookID" ColumnName="PlotHookID" />
+                <ScalarProperty Name="Ordinal" ColumnName="Ordinal" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

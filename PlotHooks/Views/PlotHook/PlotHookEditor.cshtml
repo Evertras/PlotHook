@@ -1,0 +1,99 @@
+﻿@model PlotHooks.Models.PlotHook
+
+@{
+	ViewBag.Title = "Edit";
+}
+
+<form method="post">
+	<h1><input data-bind="value: title" name="Title" class="large-12" /></h1>
+
+	<div data-bind="foreach: steps">
+		<div class="panel">
+			<button class="round small alert" data-bind="click: $root.removeStep">X</button>
+			<input data-bind="value: name, attr: {name: 'Steps[' + $index() + '].Name'}" class="large"/>
+			<table class="large-12">
+				<thead>
+					<tr>
+						<th></th>
+						<th>#</th>
+						<th>Text</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: selections">
+					<tr>
+						<td><button data-bind="click: function(data, event) { $root.removeSelection($parent, $data, data, event); }" class="round">X</button></td>
+						<td data-bind="text: ($index() + 1)"></td>
+						<td><input data-bind="value: text, valueUpdate: 'afterkeydown', hasFocus: true, event: { keypress: function(data, event) { return $root.selectionKeyPress(data, event, $parent, $data); } }, attr: {name: 'Steps[' + $parentContext.$index() + '].Selections[' + $index() + '].Text'}" /></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<button data-bind="click: $root.addSelection">Add a new selection</button>
+		</div>
+	</div>
+
+	<p><button data-bind="click: $root.addStep">Add a new step</button></p>
+
+	<p><button data-bind="click: function() { $('form').submit(); }" class="success">Submit</button></p>
+</form>
+
+<script type="text/javascript">
+	function step(name, selections) {
+		return {
+			name: ko.observable(name),
+			selections: ko.observableArray(selections)
+		};
+	}
+
+	function selection(text) {
+		return {
+			text: ko.observable(text),
+			isSelected: ko.observable(false)
+		};
+	}
+
+	function viewModel()
+	{
+		var self = this;
+
+		self.title = ko.observable(@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Title, true)));
+		self.steps = ko.observableArray(
+			[
+				@Html.Raw(string.Join(",", Model.Steps.Select(step =>
+					string.Format("new step({0}, [{1}])", HttpUtility.JavaScriptStringEncode(step.Name, true), 
+						string.Join(",",
+							step.Selections.Select(selection => string.Format("new selection({0})", HttpUtility.JavaScriptStringEncode(selection.Text, true)))))
+						)))
+			]);
+
+		self.addSelection = function (step) {
+			step.selections.push(new selection(""));
+		};
+
+		self.removeSelection = function (step, selection) {
+			step.selections.remove(selection);
+		};
+
+		self.addStep = function () {
+			self.steps.push(new step("", [new selection("")]));
+		};
+
+		self.removeStep = function (step) {
+			if (window.confirm("Are you sure you want to delete this step?"))
+			{
+				self.steps.remove(step);
+			}
+		};
+
+		self.selectionKeyPress = function (data, event, step, selection) {
+			if (event.keyCode == 13) {
+				self.addSelection(step);
+			}
+			else {
+				return true;
+			}
+		}
+	}
+
+	ko.applyBindings(new viewModel());
+</script>

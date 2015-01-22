@@ -1,0 +1,12 @@
+﻿@model PlotHooks.Models.PlotHook
+
+@{
+	ViewBag.Title = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+<h3>Created by @Model.UserName</h3>
+
+<div class="callout panel"><h3>@Model.Generate()</h3></div>
+
+<div class="info">Refresh this page to get a new plot hook!  Copy the URL to share!</div>

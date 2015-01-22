@@ -1,0 +1,16 @@
+﻿@model IEnumerable<PlotHooks.Models.PlotHook>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Plot Hooks</h2>
+
+<ul>
+	@foreach (var plotHook in Model)
+ {
+	 <li>@Html.ActionLink(plotHook.Title, "View", new { id = plotHook.Id }) - @Html.ActionLink("Edit", "Edit", new { id = plotHook.Id })</li>
+ }
+</ul>
+
+<p>@Html.ActionLink("Create new", "Create")</p>
